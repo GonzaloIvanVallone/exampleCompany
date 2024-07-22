@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 //Usually replaced by @Data @NoArgsConstructor @AllArgsConstructor
@@ -15,12 +14,12 @@ public class Company{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long companyId;
 
-    @Size(max = 50, message = "Company name is too long")
-    @NotNull(message = "Company name cannot be null")
+    @Size(max=50)
+    @NotNull
     private String companyName;
 
-    @Size(max = 50, message = "Company address name is too long")
-    @NotNull(message = "Company address cannot be null")
+    @Size(max=50)
+    @NotNull
     private String companyAddress;
     private Boolean isActive;
 

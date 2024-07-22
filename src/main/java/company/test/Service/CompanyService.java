@@ -1,12 +1,12 @@
 package company.test.Service;
 
+import company.test.Exception.DuplicatedElement;
 import company.test.Exception.ElementNotFound;
 import company.test.Model.Company;
 import company.test.Repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CompanyService{
@@ -15,9 +15,10 @@ public class CompanyService{
 
     /*get 1 company by id*/
     public Company getCompany(Long id){
-        Optional<Company> opt = companyRepository.findById(id);
-        return opt.orElseThrow(() -> new ElementNotFound("No company found with given ID"));
+        return companyRepository.findById(id)
+                .orElseThrow(() -> new ElementNotFound("No company found with given ID"));
     }
+
     /*get all companies*/
     public List<Company> getCompanies(){
         List<Company> optList = companyRepository.findAll();
@@ -30,21 +31,22 @@ public class CompanyService{
     /*save a company*/
     public void postCompany(Company company){
         try{
+            companyRepository.findById(company.getCompanyId())//need another unique value here
+                    .ifPresent(e -> { throw new DuplicatedElement("Company already exists"); });
             companyRepository.save(company);
         }catch(Exception e){
             throw new RuntimeException();
         }
     }
+
     /*update data of a company by id*/
     public void updateCompany(Long id, Company company){
         try{
-            Optional<Company> opt = companyRepository.findById(id);
-            if(opt.isEmpty()){
-                throw new ElementNotFound("Something went wrong");
-            }
-            opt.get().setCompanyName(company.getCompanyName());
-            opt.get().setCompanyAddress(company.getCompanyAddress());
-            companyRepository.save(opt.get());
+            Company updatedCompany = companyRepository.findById(id)
+                    .orElseThrow(() -> new ElementNotFound("Company not found"));
+            updatedCompany.setCompanyName(company.getCompanyName());
+            updatedCompany.setCompanyAddress(company.getCompanyAddress());
+            companyRepository.save(updatedCompany);
         }catch(Exception e){
             throw new RuntimeException();
         }
@@ -53,13 +55,11 @@ public class CompanyService{
     /*physical or logical delete of a company*/
     public void deleteCompany(Long id){
         try{
-            Optional<Company> opt = companyRepository.findById(id);
-            if(opt.isEmpty()){
-                throw new ElementNotFound("No Company found with given ID");
-            }
-            opt.get().setActive(false);
-            companyRepository.save(opt.get());//logical
-            companyRepository.delete(opt.get());//physical
+            Company deletedCompany = companyRepository.findById(id)
+                    .orElseThrow(() -> new ElementNotFound("No company found with given ID"));
+            deletedCompany.setActive(false);
+            companyRepository.save(deletedCompany);//logical
+            companyRepository.delete(deletedCompany);//physical
         }catch(Exception e){
             throw new RuntimeException();
         }

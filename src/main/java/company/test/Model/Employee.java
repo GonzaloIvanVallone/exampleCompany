@@ -14,11 +14,11 @@ public class Employee{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long employeeId;
 
-    @Size(max = 50, message = "Employee name is too long")
+    @Size(max=50)
     @NotNull
     private String employeeName;
 
-    @Size(max = 50, message = "Employee lastname is too long")
+    @Size(max=50)
     @NotNull
     private String employeeLastName;
 

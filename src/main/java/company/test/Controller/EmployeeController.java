@@ -40,7 +40,7 @@ public class EmployeeController{
     @PostMapping("/createEmployee")
     public ResponseEntity<?> postEmployee(@Valid @RequestBody Employee employee){
         try{
-            employeeService.postEmployee(employee);//check if already exist?
+            employeeService.postEmployee(employee);
             return new ResponseEntity<>("Employee created successfully", HttpStatus.CREATED);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
