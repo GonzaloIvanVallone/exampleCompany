@@ -31,8 +31,8 @@ public class CompanyService{
     /*save a company*/
     public void postCompany(Company company){
         try{
-            companyRepository.findById(company.getCompanyId())//need another unique value here
-                    .ifPresent(e -> { throw new DuplicatedElement("Company already exists"); });
+            /*companyRepository.findById(company.getCompanyId())
+                    .ifPresent(e -> { throw new DuplicatedElement("Company already exists"); });*/
             companyRepository.save(company);
         }catch(Exception e){
             throw new RuntimeException();

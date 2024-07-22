@@ -2,13 +2,11 @@ package company.test.Service;
 
 import company.test.Exception.DuplicatedElement;
 import company.test.Exception.ElementNotFound;
-import company.test.Model.Company;
 import company.test.Model.Employee;
 import company.test.Repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService{
@@ -20,6 +18,7 @@ public class EmployeeService{
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFound("No employee found with given ID"));
     }
+
     /*get all employees*/
     public List<Employee> getAllEmployees(){
         List<Employee> optList = employeeRepository.findAll();
@@ -32,13 +31,15 @@ public class EmployeeService{
     /*save an employee*/
     public void postEmployee(Employee employee){
         try{
-            employeeRepository.findById(employee.getEmployeeId())//need another unique value here like DNI
+            /*employeeRepository.findById(employee.getEmployeeId())
                     .ifPresent(e -> { throw new DuplicatedElement("Employee already exists"); });
+                    */
             employeeRepository.save(employee);
         }catch(Exception e){
             throw new RuntimeException();
         }
     }
+
     /*update data of an employee by id*/
     public void updateEmployee(Long id,Employee employee){
         Employee updatedEmployee = employeeRepository.findById(id)
