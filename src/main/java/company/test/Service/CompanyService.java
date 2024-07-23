@@ -75,8 +75,8 @@ public class CompanyService {
         try {
             Company deletedCompany = companyRepository.findById(id)
                     .orElseThrow(() -> new ElementNotFound("No company found with given ID"));
-            if(Boolean.TRUE.equals(deletedCompany.getActive())){
-                deletedCompany.setActive(false);
+            if(Boolean.TRUE.equals(deletedCompany.getIsActive())){
+                deletedCompany.setIsActive(false);
                 companyRepository.save(deletedCompany);
             }
         } catch (ElementNotFound e) {

@@ -80,8 +80,8 @@ public class EmployeeService {
         try {
             Employee deletedEmployee = employeeRepository.findById(id)
                     .orElseThrow(() -> new ElementNotFound("No employee found with given ID"));
-            if (Boolean.TRUE.equals(deletedEmployee.getActive())) {
-                deletedEmployee.setActive(false);
+            if (Boolean.TRUE.equals(deletedEmployee.getIsActive())) {
+                deletedEmployee.setIsActive(false);
                 employeeRepository.save(deletedEmployee);
             }
         } catch (ElementNotFound e) {

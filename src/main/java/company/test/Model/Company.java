@@ -6,10 +6,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.Objects;
 
-//Usually replaced by @Data @NoArgsConstructor @AllArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Company {
     @Id
@@ -23,70 +27,19 @@ public class Company {
     @Size(max = 50)
     @NotNull
     private String companyAddress;
-    private Boolean isActive;
+    private Boolean isActive = true;
     private Integer companyCuit;
-
-    public Company(String companyName, String companyAddress, Integer companyCuit) {
-        this.companyName = companyName;
-        this.companyAddress = companyAddress;
-        this.companyCuit = companyCuit;
-        this.isActive = true;
-    }
-
-    public Company() {
-        this.isActive = true;
-    }
-
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
-    }
-
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public String getCompanyAddress() {
-        return companyAddress;
-    }
-
-    public void setCompanyAddress(String companyAddress) {
-        this.companyAddress = companyAddress;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Company company = (Company) o;
-        return Objects.equals(companyId, company.companyId) && Objects.equals(companyName, company.companyName) && Objects.equals(companyAddress, company.companyAddress) && Objects.equals(isActive, company.isActive);
+        return Objects.equals(companyId, company.companyId) && Objects.equals(companyName, company.companyName) && Objects.equals(companyAddress, company.companyAddress) && Objects.equals(isActive, company.isActive) && Objects.equals(companyCuit, company.companyCuit);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(companyId, companyName, companyAddress, isActive);
-    }
-
-    public Integer getCompanyCuit() {
-        return companyCuit;
-    }
-
-    public void setCompanyCuit(Integer companyCuit) {
-        this.companyCuit = companyCuit;
+        return Objects.hash(companyId, companyName, companyAddress, isActive, companyCuit);
     }
 }

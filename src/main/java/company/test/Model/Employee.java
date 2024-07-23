@@ -6,11 +6,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.Objects;
 
-//Usually replaced by @Data @NoArgsConstructor @AllArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Employee {
     @Id
@@ -28,67 +32,7 @@ public class Employee {
     @NotNull
     private LocalDate birthDay;
     private Integer employeeDni;
-    private Boolean isActive;
-
-    public Employee(String employeeName, String employeeLastName, LocalDate birthDay, Integer employeeDni) {
-        this.employeeName = employeeName;
-        this.employeeLastName = employeeLastName;
-        this.birthDay = birthDay;
-        this.employeeDni = employeeDni;
-        this.isActive = true;
-    }
-
-    public Employee() {
-        this.isActive = true;
-    }
-
-    public Long getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public String getEmployeeName() {
-        return employeeName;
-    }
-
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
-    }
-
-    public String getEmployeeLastName() {
-        return employeeLastName;
-    }
-
-    public void setEmployeeLastName(String employeeLastName) {
-        this.employeeLastName = employeeLastName;
-    }
-
-    public LocalDate getBirthDay() {
-        return birthDay;
-    }
-
-    public void setBirthDay(LocalDate birthDay) {
-        this.birthDay = birthDay;
-    }
-
-    public Integer getEmployeeDni() {
-        return employeeDni;
-    }
-
-    public void setEmployeeDni(Integer employeeDni) {
-        this.employeeDni = employeeDni;
-    }
-
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
-    }
+    private Boolean isActive = true;
 
     @Override
     public boolean equals(Object o) {
