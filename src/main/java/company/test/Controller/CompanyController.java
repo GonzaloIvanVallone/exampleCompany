@@ -18,59 +18,29 @@ public class CompanyController {
 
     @GetMapping("/getCompanies")
     public ResponseEntity<?> getAllCompanies() {
-        try {
-            return new ResponseEntity<>(companyService.getCompanies(), HttpStatus.OK);
-        } catch (ElementNotFound e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(companyService.getCompanies(), HttpStatus.OK);
     }
 
     @GetMapping("/getCompany/{companyId}")
     public ResponseEntity<?> getCompany(@PathVariable("companyId") Long id) {
-        try {
-            return new ResponseEntity<>(companyService.getCompany(id), HttpStatus.OK);
-        } catch (ElementNotFound e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(companyService.getCompany(id), HttpStatus.OK);
     }
 
     @PostMapping("/createCompany")
     public ResponseEntity<?> postCompany(@Valid @RequestBody Company company) {
-        try {
-            companyService.postCompany(company);
-            return new ResponseEntity<>("Company created successfully", HttpStatus.CREATED);
-        } catch (DuplicatedElement e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        companyService.postCompany(company);
+        return new ResponseEntity<>("Company created successfully", HttpStatus.CREATED);
     }
 
     @PutMapping("/updateCompany/{companyId}")
     public ResponseEntity<?> updateCompany(@PathVariable("companyId") Long id, @Valid @RequestBody Company company) {
-        try {
-            companyService.updateCompany(id, company);
-            return new ResponseEntity<>("Company updated successfully", HttpStatus.OK);
-        } catch (ElementNotFound e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        companyService.updateCompany(id, company);
+        return new ResponseEntity<>("Company updated successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteCompany/{companyId}")
     public ResponseEntity<?> deleteCompany(@PathVariable("companyId") Long id) {
-        try {
-            companyService.deleteCompany(id);
-            return new ResponseEntity<>("Company deleted successfully", HttpStatus.OK);
-        } catch (ElementNotFound e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Unable to delete company, please retry later", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        companyService.deleteCompany(id);
+        return new ResponseEntity<>("Company deleted successfully", HttpStatus.OK);
     }
 }

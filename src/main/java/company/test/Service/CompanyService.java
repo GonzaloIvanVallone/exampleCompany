@@ -27,11 +27,13 @@ public class CompanyService {
     /*get all companies*/
     public List<Company> getCompanies() {
         try {
-            List<Company> optList = companyRepository.findAll();
+            List<Company> optList = companyRepository.findAllCompanies();
             if (optList.isEmpty()) {
                 throw new ElementNotFound("No companies found");
             }
             return optList;
+        }  catch (ElementNotFound e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException("An unexpected error occurred", e);
         }
@@ -40,10 +42,12 @@ public class CompanyService {
     /*save a company*/
     public void postCompany(Company company) {
         try {
-            companyRepository.findByCuit(company.getCompanyCuit())
+            companyRepository.findBycompanyCuit(company.getCompanyCuit())
                     .ifPresent(e -> { throw new DuplicatedElement("Company already exists"); });
             companyRepository.save(company);
-        } catch (Exception e) {
+        } catch (DuplicatedElement e) {
+            throw e;
+        }  catch (Exception e) {
             throw new RuntimeException("An unexpected error occurred", e);
         }
     }
@@ -59,7 +63,9 @@ public class CompanyService {
                 updatedCompany.setCompanyCuit(company.getCompanyCuit());
                 companyRepository.save(updatedCompany);
             }
-        } catch (Exception e) {
+        } catch (ElementNotFound e) {
+            throw e;
+        }  catch (Exception e) {
             throw new RuntimeException("An unexpected error occurred", e);
         }
     }
@@ -73,7 +79,9 @@ public class CompanyService {
                 deletedCompany.setActive(false);
                 companyRepository.save(deletedCompany);
             }
-        } catch (Exception e) {
+        } catch (ElementNotFound e) {
+            throw e;
+        }  catch (Exception e) {
             throw new RuntimeException("An unexpected error occurred", e);
         }
     }

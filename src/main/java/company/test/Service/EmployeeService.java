@@ -20,6 +20,8 @@ public class EmployeeService {
         try {
             return employeeRepository.findById(id)
                     .orElseThrow(() -> new ElementNotFound("No employee found with given ID"));//service exception
+        } catch (ElementNotFound e) {
+            throw e;
         } catch (DataAccessException e) {
             throw new DataAccessException("Failed to access DB");//repository exception (consultar)
         } catch (Exception e) {
@@ -30,12 +32,14 @@ public class EmployeeService {
     /*get all employees*/
     public List<Employee> getAllEmployees() {
         try {
-            List<Employee> optList = employeeRepository.findAll();
+            List<Employee> optList = employeeRepository.findAllEmployees();
             if (optList.isEmpty()) {
                 throw new ElementNotFound("No employees found");
             }
             return optList;
-        }catch (Exception e) {
+        } catch (ElementNotFound e) {
+            throw e;
+        } catch(Exception e) {
             throw new RuntimeException("An unexpected error occurred", e);
         }
     }
@@ -43,9 +47,11 @@ public class EmployeeService {
     /*save an employee*/
     public void postEmployee(Employee employee) {
         try {
-            employeeRepository.findByDni(employee.getEmployeeDni())
+            employeeRepository.findByemployeeDni(employee.getEmployeeDni())
                     .ifPresent(e -> { throw new DuplicatedElement("Employee already exists"); });
             employeeRepository.save(employee);
+        }  catch (DuplicatedElement e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException("An unexpected error occurred", e);
         }
@@ -62,7 +68,9 @@ public class EmployeeService {
                 updatedEmployee.setBirthDay(employee.getBirthDay());
             }
             employeeRepository.save(updatedEmployee);
-        }catch (Exception e){
+        } catch (ElementNotFound e) {
+            throw e;
+        } catch (Exception e){
             throw new RuntimeException("An unexpected error occurred", e);
         }
     }
@@ -76,7 +84,9 @@ public class EmployeeService {
                 deletedEmployee.setActive(false);
                 employeeRepository.save(deletedEmployee);
             }
-        }catch (Exception e){
+        } catch (ElementNotFound e) {
+            throw e;
+        } catch (Exception e){
             throw new RuntimeException("An unexpected error occurred", e);
         }
     }

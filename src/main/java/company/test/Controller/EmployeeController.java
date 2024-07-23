@@ -18,59 +18,29 @@ public class EmployeeController {
 
     @GetMapping("/getEmployees")
     public ResponseEntity<?> getAllEmployees() {
-        try {
-            return new ResponseEntity<>(employeeService.getAllEmployees(), HttpStatus.OK);
-        } catch (ElementNotFound e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(employeeService.getAllEmployees(), HttpStatus.OK);
     }
 
     @GetMapping("/getEmployee/{employeeId}")
     public ResponseEntity<?> getEmployee(@PathVariable("employeeId") Long id) {
-        try {
-            return new ResponseEntity<>(employeeService.getEmployee(id), HttpStatus.OK);
-        } catch (ElementNotFound e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(employeeService.getEmployee(id), HttpStatus.OK);
     }
 
     @PostMapping("/createEmployee")
     public ResponseEntity<?> postEmployee(@Valid @RequestBody Employee employee) {
-        try {
-            employeeService.postEmployee(employee);
-            return new ResponseEntity<>("Employee created successfully", HttpStatus.CREATED);
-        } catch (DuplicatedElement e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        employeeService.postEmployee(employee);
+        return new ResponseEntity<>("Employee created successfully", HttpStatus.CREATED);
     }
 
     @PutMapping("/updateEmployee/{employeeId}")
     public ResponseEntity<?> updateEmployee(@PathVariable("employeeId") Long id, @Valid @RequestBody Employee employee) {
-        try {
-            employeeService.updateEmployee(id, employee);
-            return new ResponseEntity<>("Employee updated successfully", HttpStatus.OK);
-        } catch (ElementNotFound e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        employeeService.updateEmployee(id, employee);
+        return new ResponseEntity<>("Employee updated successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteEmployee/{employeeId}")
     public ResponseEntity<?> deleteEmployee(@PathVariable("employeeId") Long id) {
-        try {
-            employeeService.deleteEmployee(id);
-            return new ResponseEntity<>("Employee deleted successfully", HttpStatus.OK);
-        } catch (ElementNotFound e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        employeeService.deleteEmployee(id);
+        return new ResponseEntity<>("Employee deleted successfully", HttpStatus.OK);
     }
 }

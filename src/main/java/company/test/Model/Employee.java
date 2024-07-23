@@ -27,7 +27,6 @@ public class Employee {
 
     @NotNull
     private LocalDate birthDay;
-    @NotNull
     private Integer employeeDni;
     private Boolean isActive;
 
@@ -40,6 +39,7 @@ public class Employee {
     }
 
     public Employee() {
+        this.isActive = true;
     }
 
     public Long getEmployeeId() {

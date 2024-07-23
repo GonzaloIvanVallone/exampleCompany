@@ -34,6 +34,7 @@ public class Company {
     }
 
     public Company() {
+        this.isActive = true;
     }
 
     public Boolean getActive() {
