@@ -19,6 +19,8 @@ public class CompanyService {
         try {
             return companyRepository.findById(id)
                     .orElseThrow(() -> new ElementNotFound("No company found with given ID"));
+        } catch (ElementNotFound e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException("An unexpected error occurred", e);
         }
@@ -47,7 +49,7 @@ public class CompanyService {
             companyRepository.save(company);
         } catch (DuplicatedElement e) {
             throw e;
-        }  catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("An unexpected error occurred", e);
         }
     }
