@@ -4,6 +4,7 @@ import company.test.Exception.DuplicatedElement;
 import company.test.Exception.ElementNotFound;
 import company.test.Model.Company;
 import company.test.Repository.CompanyRepository;
+import company.test.Utils.NullRemover;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,12 +60,8 @@ public class CompanyService {
         try {
             Company updatedCompany = companyRepository.findById(id)
                     .orElseThrow(() -> new ElementNotFound("Company not found"));
-            if (!updatedCompany.equals(company)) {
-                updatedCompany.setCompanyName(company.getCompanyName());
-                updatedCompany.setCompanyAddress(company.getCompanyAddress());
-                updatedCompany.setCompanyCuit(company.getCompanyCuit());
-                companyRepository.save(updatedCompany);
-            }
+            NullRemover.copyNonNullProperties(company, updatedCompany);
+            companyRepository.save(updatedCompany);
         } catch (ElementNotFound e) {
             throw e;
         }  catch (Exception e) {

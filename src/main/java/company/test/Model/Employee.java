@@ -20,16 +20,10 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long employeeId;
-
     @Size(max = 50)
-    @NotNull
     private String employeeName;
-
     @Size(max = 50)
-    @NotNull
     private String employeeLastName;
-
-    @NotNull
     private LocalDate birthDay;
     private Integer employeeDni;
     private Boolean isActive = true;

@@ -5,9 +5,9 @@ import company.test.Exception.DuplicatedElement;
 import company.test.Exception.ElementNotFound;
 import company.test.Model.Employee;
 import company.test.Repository.EmployeeRepository;
+import company.test.Utils.NullRemover;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -62,11 +62,7 @@ public class EmployeeService {
         try {
             Employee updatedEmployee = employeeRepository.findById(id)
                     .orElseThrow(() -> new ElementNotFound("Employee not found"));
-            if (!updatedEmployee.equals(employee)) {
-                updatedEmployee.setEmployeeName(employee.getEmployeeName());
-                updatedEmployee.setEmployeeLastName(employee.getEmployeeLastName());
-                updatedEmployee.setBirthDay(employee.getBirthDay());
-            }
+            NullRemover.copyNonNullProperties(employee, updatedEmployee);
             employeeRepository.save(updatedEmployee);
         } catch (ElementNotFound e) {
             throw e;

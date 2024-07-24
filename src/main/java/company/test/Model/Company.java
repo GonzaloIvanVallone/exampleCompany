@@ -19,17 +19,12 @@ public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long companyId;
-
     @Size(max = 50)
-    @NotNull
     private String companyName;
-
     @Size(max = 50)
-    @NotNull
     private String companyAddress;
     private Boolean isActive = true;
     private Integer companyCuit;
-
 
 
     @Override

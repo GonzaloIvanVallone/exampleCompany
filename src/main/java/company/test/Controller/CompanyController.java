@@ -32,7 +32,7 @@ public class CompanyController {
         return new ResponseEntity<>("Company created successfully", HttpStatus.CREATED);
     }
 
-    @PutMapping("/updateCompany/{companyId}")
+    @PatchMapping("/updateCompany/{companyId}")
     public ResponseEntity<?> updateCompany(@PathVariable("companyId") Long id, @Valid @RequestBody Company company) {
         companyService.updateCompany(id, company);
         return new ResponseEntity<>("Company updated successfully", HttpStatus.OK);
