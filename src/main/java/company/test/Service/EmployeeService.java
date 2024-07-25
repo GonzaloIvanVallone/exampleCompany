@@ -3,6 +3,7 @@ package company.test.Service;
 import company.test.Exception.DataAccessException;
 import company.test.Exception.DuplicatedElement;
 import company.test.Exception.ElementNotFound;
+import company.test.Exception.UnexpectedError;
 import company.test.Model.Employee;
 import company.test.Repository.EmployeeRepository;
 import company.test.Utils.NullRemover;
@@ -19,13 +20,9 @@ public class EmployeeService {
     public Employee getEmployee(Long id) {
         try {
             return employeeRepository.findById(id)
-                    .orElseThrow(() -> new ElementNotFound("No employee found with given ID"));//service exception
-        } catch (ElementNotFound e) {
-            throw e;
+                    .orElseThrow(() -> new ElementNotFound("No employee found with given ID"));
         } catch (DataAccessException e) {
-            throw new DataAccessException("Failed to access DB");//repository exception (consultar)
-        } catch (Exception e) {
-            throw new RuntimeException("An unexpected error occurred", e);//any other exception
+            throw new UnexpectedError("Failed to access DB");
         }
     }
 
@@ -37,10 +34,8 @@ public class EmployeeService {
                 throw new ElementNotFound("No employees found");
             }
             return optList;
-        } catch (ElementNotFound e) {
-            throw e;
-        } catch(Exception e) {
-            throw new RuntimeException("An unexpected error occurred", e);
+        } catch (DataAccessException e) {
+            throw new UnexpectedError("Failed to access DB");
         }
     }
 
@@ -50,10 +45,8 @@ public class EmployeeService {
             employeeRepository.findByemployeeDni(employee.getEmployeeDni())
                     .ifPresent(e -> { throw new DuplicatedElement("Employee already exists"); });
             employeeRepository.save(employee);
-        }  catch (DuplicatedElement e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException("An unexpected error occurred", e);
+        } catch (DataAccessException e) {
+            throw new UnexpectedError("Failed to access DB");
         }
     }
 
@@ -64,10 +57,8 @@ public class EmployeeService {
                     .orElseThrow(() -> new ElementNotFound("Employee not found"));
             NullRemover.copyNonNullProperties(employee, updatedEmployee);
             employeeRepository.save(updatedEmployee);
-        } catch (ElementNotFound e) {
-            throw e;
-        } catch (Exception e){
-            throw new RuntimeException("An unexpected error occurred", e);
+        } catch (DataAccessException e) {
+            throw new UnexpectedError("Failed to access DB");
         }
     }
 
@@ -80,10 +71,8 @@ public class EmployeeService {
                 deletedEmployee.setIsActive(false);
                 employeeRepository.save(deletedEmployee);
             }
-        } catch (ElementNotFound e) {
-            throw e;
-        } catch (Exception e){
-            throw new RuntimeException("An unexpected error occurred", e);
+        } catch (DataAccessException e) {
+            throw new UnexpectedError("Failed to access DB");
         }
     }
 }

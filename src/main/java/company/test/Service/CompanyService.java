@@ -1,13 +1,14 @@
 package company.test.Service;
 
+import company.test.Exception.DataAccessException;
 import company.test.Exception.DuplicatedElement;
 import company.test.Exception.ElementNotFound;
+import company.test.Exception.UnexpectedError;
 import company.test.Model.Company;
 import company.test.Repository.CompanyRepository;
 import company.test.Utils.NullRemover;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -20,10 +21,8 @@ public class CompanyService {
         try {
             return companyRepository.findById(id)
                     .orElseThrow(() -> new ElementNotFound("No company found with given ID"));
-        } catch (ElementNotFound e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException("An unexpected error occurred", e);
+        } catch (DataAccessException e) {
+            throw new UnexpectedError("Failed to access DB");
         }
     }
 
@@ -35,10 +34,8 @@ public class CompanyService {
                 throw new ElementNotFound("No companies found");
             }
             return optList;
-        }  catch (ElementNotFound e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException("An unexpected error occurred", e);
+        } catch (DataAccessException e) {
+            throw new UnexpectedError("Failed to access DB");
         }
     }
 
@@ -48,10 +45,8 @@ public class CompanyService {
             companyRepository.findBycompanyCuit(company.getCompanyCuit())
                     .ifPresent(e -> { throw new DuplicatedElement("Company already exists"); });
             companyRepository.save(company);
-        } catch (DuplicatedElement e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException("An unexpected error occurred", e);
+        } catch (DataAccessException e) {
+            throw new UnexpectedError("Failed to access DB");
         }
     }
 
@@ -62,10 +57,8 @@ public class CompanyService {
                     .orElseThrow(() -> new ElementNotFound("Company not found"));
             NullRemover.copyNonNullProperties(company, updatedCompany);
             companyRepository.save(updatedCompany);
-        } catch (ElementNotFound e) {
-            throw e;
-        }  catch (Exception e) {
-            throw new RuntimeException("An unexpected error occurred", e);
+        } catch (DataAccessException e) {
+            throw new UnexpectedError("Failed to access DB");
         }
     }
 
@@ -78,10 +71,8 @@ public class CompanyService {
                 deletedCompany.setIsActive(false);
                 companyRepository.save(deletedCompany);
             }
-        } catch (ElementNotFound e) {
-            throw e;
-        }  catch (Exception e) {
-            throw new RuntimeException("An unexpected error occurred", e);
+        } catch (DataAccessException e) {
+            throw new UnexpectedError("Failed to access DB");
         }
     }
 }

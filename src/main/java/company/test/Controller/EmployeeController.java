@@ -1,7 +1,5 @@
 package company.test.Controller;
 
-import company.test.Exception.DuplicatedElement;
-import company.test.Exception.ElementNotFound;
 import company.test.Model.Employee;
 import company.test.Service.EmployeeService;
 import jakarta.validation.Valid;
