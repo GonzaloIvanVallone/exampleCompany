@@ -22,7 +22,7 @@ public class CompanyService {
             return companyRepository.findById(id)
                     .orElseThrow(() -> new ElementNotFound("No company found with given ID"));
         } catch (DataAccessException e) {
-            throw new UnexpectedError("Failed to access DB");
+            throw new DataAccessException("Failed to access DB");
         }
     }
 
@@ -35,7 +35,7 @@ public class CompanyService {
             }
             return optList;
         } catch (DataAccessException e) {
-            throw new UnexpectedError("Failed to access DB");
+            throw new DataAccessException("Failed to access DB");
         }
     }
 
@@ -46,7 +46,7 @@ public class CompanyService {
                     .ifPresent(e -> { throw new DuplicatedElement("Company already exists"); });
             companyRepository.save(company);
         } catch (DataAccessException e) {
-            throw new UnexpectedError("Failed to access DB");
+            throw new DataAccessException("Failed to access DB");
         }
     }
 
@@ -58,7 +58,7 @@ public class CompanyService {
             NullRemover.copyNonNullProperties(company, updatedCompany);
             companyRepository.save(updatedCompany);
         } catch (DataAccessException e) {
-            throw new UnexpectedError("Failed to access DB");
+            throw new DataAccessException("Failed to access DB");
         }
     }
 
@@ -72,7 +72,7 @@ public class CompanyService {
                 companyRepository.save(deletedCompany);
             }
         } catch (DataAccessException e) {
-            throw new UnexpectedError("Failed to access DB");
+            throw new DataAccessException("Failed to access DB");
         }
     }
 }

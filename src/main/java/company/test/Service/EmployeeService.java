@@ -22,7 +22,7 @@ public class EmployeeService {
             return employeeRepository.findById(id)
                     .orElseThrow(() -> new ElementNotFound("No employee found with given ID"));
         } catch (DataAccessException e) {
-            throw new UnexpectedError("Failed to access DB");
+            throw new DataAccessException("Failed to access DB");
         }
     }
 
@@ -35,7 +35,7 @@ public class EmployeeService {
             }
             return optList;
         } catch (DataAccessException e) {
-            throw new UnexpectedError("Failed to access DB");
+            throw new DataAccessException("Failed to access DB");
         }
     }
 
@@ -46,7 +46,7 @@ public class EmployeeService {
                     .ifPresent(e -> { throw new DuplicatedElement("Employee already exists"); });
             employeeRepository.save(employee);
         } catch (DataAccessException e) {
-            throw new UnexpectedError("Failed to access DB");
+            throw new DataAccessException("Failed to access DB");
         }
     }
 
@@ -58,7 +58,7 @@ public class EmployeeService {
             NullRemover.copyNonNullProperties(employee, updatedEmployee);
             employeeRepository.save(updatedEmployee);
         } catch (DataAccessException e) {
-            throw new UnexpectedError("Failed to access DB");
+            throw new DataAccessException("Failed to access DB");
         }
     }
 
@@ -72,7 +72,7 @@ public class EmployeeService {
                 employeeRepository.save(deletedEmployee);
             }
         } catch (DataAccessException e) {
-            throw new UnexpectedError("Failed to access DB");
+            throw new DataAccessException("Failed to access DB");
         }
     }
 }
