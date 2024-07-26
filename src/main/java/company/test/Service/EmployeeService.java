@@ -62,7 +62,7 @@ public class EmployeeService {
         }
     }
 
-    /*physical delete of an employee*/
+    /*logical delete of an employee*/
     public void deleteEmployee(Long id) {
         try {
             Employee deletedEmployee = employeeRepository.findById(id)
